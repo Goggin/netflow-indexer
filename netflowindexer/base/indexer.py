@@ -33,8 +33,8 @@ class BaseIndexer:
 
     def get_bytes(self, fn):
         ips = self.get_ips(fn)
-        bytes = map(serialize_ip, ips)
-        return filter(None, bytes)
+        bytes = list(map(serialize_ip, ips))
+        return [_f for _f in bytes if _f]
 
     def fn_to_db(self, fn):
         """turn /data/nfsen/profiles/live/podium/nfcapd.200903011030 into 20090301.db"""
@@ -61,7 +61,7 @@ class BaseIndexer:
         self.dirty = False
         st = time.time()
         self.database.flush()
-        print "Flush took %0.1f seconds." % (time.time() - st)
+        print("Flush took %0.1f seconds." % (time.time() - st))
         sys.stdout.flush()
 
     def maybe_flush(self):
@@ -86,19 +86,19 @@ class BaseIndexer:
         if len(fns) == 1:
             st = time.time()
             ips = self.get_bytes(fns[0])
-            print "read %s in %0.1f seconds. %d ips." % (fns[0], time.time() - st, len(ips))
+            print("read %s in %0.1f seconds. %d ips." % (fns[0], time.time() - st, len(ips)))
             sys.stdout.flush()
         else:
             ips = set()
             for fn in fns:
                 st = time.time()
                 ips.update(self.get_bytes(fn))
-                print "read %s in %0.1f seconds. %d ips." % (fn, time.time() - st, len(ips))
+                print("read %s in %0.1f seconds. %d ips." % (fn, time.time() - st, len(ips)))
                 sys.stdout.flush()
 
         doc = xapian.Document()
 
-        map(doc.add_term, ips)
+        list(map(doc.add_term, ips))
 
         for fn in fns:
             doc.add_term("fn:%s" % fn)

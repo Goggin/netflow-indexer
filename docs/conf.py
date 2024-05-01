@@ -37,8 +37,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'netflow-indexer'
-copyright = u'2012, Justin Azoff'
+project = 'netflow-indexer'
+copyright = '2012, Justin Azoff'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -172,8 +172,8 @@ htmlhelp_basename = 'netflow-indexerdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'netflow-indexer.tex', u'netflow-indexer Documentation',
-   u'Justin Azoff', 'manual'),
+  ('index', 'netflow-indexer.tex', 'netflow-indexer Documentation',
+   'Justin Azoff', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -206,8 +206,8 @@ latex_elements = {
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'netflow-indexer', u'netflow-indexer documentation',
-     [u'Justin Azoff'], 1)
+    ('index', 'netflow-indexer', 'netflow-indexer documentation',
+     ['Justin Azoff'], 1)
 ]
 
 # If true, show URL addresses after external links.

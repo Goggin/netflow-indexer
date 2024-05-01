@@ -16,7 +16,7 @@ class SearchResult(dict):
         return str(self.time)
 
     def __repr__(self):
-        others = ', '.join(["%s=%s" % (k,v) for (k,v) in self.items() if k not in ('filename','time')])
+        others = ', '.join(["%s=%s" % (k,v) for (k,v) in list(self.items()) if k not in ('filename','time')])
         if others:
             others = ", " + others
         s = "SearchResult(filename=%s, time=%s%s)" % (self.filename, self.time, others)

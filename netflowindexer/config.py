@@ -1,4 +1,4 @@
-import ConfigParser
+import configparser
 import datetime
 
 from netflowindexer.util import str_to_regex
@@ -13,7 +13,7 @@ def read_config(fn):
         'day':      "%02d" % now.day,
         'hour':     "%02d" % now.hour,
     }
-    c = ConfigParser.ConfigParser(defaults=defaults)
+    c = configparser.ConfigParser(defaults=defaults)
     f = open(fn)
     c.readfp(f)
     f.close()

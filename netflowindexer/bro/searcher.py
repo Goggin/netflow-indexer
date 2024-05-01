@@ -38,7 +38,7 @@ class BroSearcher(BaseSearcher):
         all_ips = []
         for ip in ips:
             if '/' in ip:
-                all_ips.extend(map(util.deserialize_ip, self.expand_netmask(ip)))
+                all_ips.extend(list(map(util.deserialize_ip, self.expand_netmask(ip))))
             else:
                 all_ips.append(ip)
         for doc in docs:

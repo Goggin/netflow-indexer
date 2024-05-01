@@ -33,7 +33,7 @@ def index():
 
     files = sorted(glob.glob(cfg_data[the_glob]))
     if not files and not options.full:
-        print "No files matched 'fileglob', perhaps you need --full-index?"
+        print("No files matched 'fileglob', perhaps you need --full-index?")
         return 1
 
     return do_index(cfg_data['indexer'], cfg_data, files)
@@ -77,7 +77,7 @@ class Searcher:
 def output_records(records, columns, dump):
     if dump:
         for r in records:
-            print r
+            print(r)
         return
 
     if not columns:
@@ -86,7 +86,7 @@ def output_records(records, columns, dump):
         columns = split_commas(columns)
 
     for r in records:
-        print ' '.join(str(getattr(r, c)) for c in columns)
+        print(' '.join(str(getattr(r, c)) for c in columns))
 
 def search():
     from optparse import OptionParser
@@ -155,9 +155,9 @@ def cleanup():
     for x in to_delete:
         full_path = os.path.join(cfg_data['dbpath'], x)
         if options.delete:
-            print "Deleting", full_path
+            print("Deleting", full_path)
             shutil.rmtree(full_path)
         else:
-            print "Need to delete:", full_path
+            print("Need to delete:", full_path)
 
 

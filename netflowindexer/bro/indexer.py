@@ -6,7 +6,7 @@ from netflowindexer.base.indexer import BaseIndexer
 
 class BroIndexer(BaseIndexer):
     def get_ips(self, fn):
-        ip_columns = map(int, self.cfg_data["ip_columns"].split(","))
+        ip_columns = list(map(int, self.cfg_data["ip_columns"].split(",")))
         ips = set()
         add = ips.add
         for line in subprocess.Popen(["zcat", fn], stdout=subprocess.PIPE).stdout:
