@@ -15,7 +15,7 @@ def read_config(fn):
     }
     c = configparser.ConfigParser(defaults=defaults)
     f = open(fn)
-    c.readfp(f)
+    c.read_file(f)
     f.close()
     config = dict(c.items("nfi"))
     if 'pathregex' in config:
