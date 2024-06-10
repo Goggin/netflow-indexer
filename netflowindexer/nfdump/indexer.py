@@ -3,24 +3,21 @@ import subprocess
 from struct import pack
 
 from netflowindexer.base.indexer import BaseIndexer
+from netflowindexer.util import serialize_ip
 
 class NFDUMPIndexer(BaseIndexer):
     def get_bytes(self, fn):
-        cmd = ["nfdump", "-q", "-o", "pipe", "-A", "srcip,dstip", "-a", "-r", fn]
+        cmd = ["nfdump", "-q", "-6", "-o", "fmt:%sa|%da", "-A", "srcip,dstip", "-a", "-r", fn]
         ips = set()
         add = ips.add
         for line in subprocess.Popen(cmd, stdout=subprocess.PIPE).stdout:
-            parts = line.split(b"|")
-            if len(parts) != 24:
-                continue
-            if parts[6:9] != ['0','0','0']: #ipv6
-                sa = pack(">LLLL", int(parts[6]),  int(parts[7]),  int(parts[8]),  int(parts[9]))
-                da = pack(">LLLL", int(parts[11]), int(parts[12]), int(parts[13]), int(parts[14]))
-            else:
-                sa = pack(">L", int(parts[9]))
-                da = pack(">L", int(parts[14]))
-            add(sa)
-            add(da)
+            sa, da = line.decode('utf-8').strip().split('|')
+            sa = sa.strip()
+            da = da.strip()
+            if sa:
+                add(serialize_ip(sa))
+            if da:
+                add(serialize_ip(da))
         return ips
     def fn_to_db(self, fn):
         """turn /data/nfsen/profiles/live/podium/nfcapd.200903011030 into 20090301.db"""

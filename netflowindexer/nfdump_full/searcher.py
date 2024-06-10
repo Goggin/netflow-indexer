@@ -7,6 +7,7 @@ class NFDUMPFullSearcher(NFDUMPSearcher):
     def docid_to_date(self, fn):
         """turn /data/nfsen/profiles/live/podium/nfcapd.200903011020 into
         a date of 2009-03-01 10:20"""
+        fn = fn.decode('utf-8')
         t = fn[-12:]
         return util.strptime(t,'%Y%m%d%H%M')
 
@@ -20,6 +21,7 @@ class NFDUMPFullSearcher(NFDUMPSearcher):
         command.append(filter)
 
         for line in subprocess.Popen(command, stdout=subprocess.PIPE).stdout:
+            line = line.decode('utf-8')
             yield line.rstrip()
 
 searcher_class = NFDUMPFullSearcher
