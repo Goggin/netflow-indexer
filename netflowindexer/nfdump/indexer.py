@@ -12,6 +12,8 @@ class NFDUMPIndexer(BaseIndexer):
         add = ips.add
         for line in subprocess.Popen(cmd, stdout=subprocess.PIPE).stdout:
             sa = line.decode('utf-8').strip()
+            if line == "No matching flows":
+                break
             if sa:
                 add(serialize_ip(sa))
         return ips
