@@ -92,13 +92,16 @@ class BaseIndexer:
             ips = set()
             for fn in fns:
                 st = time.time()
-                ips.update(self.get_bytes(fn))
+                new_ips = self.get_bytes(fn)
+                if len(new_ips) > 0:
+                    ips.update(new_ips)
                 print("read %s in %0.1f seconds. %d ips." % (fn, time.time() - st, len(ips)))
                 sys.stdout.flush()
 
         doc = xapian.Document()
 
-        list(map(doc.add_term, ips))
+        if len(ips) > 0:
+            list(map(doc.add_term, ips))
 
         for fn in fns:
             doc.add_term("fn:%s" % fn)
