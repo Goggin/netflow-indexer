@@ -12,10 +12,11 @@ class NFDUMPIndexer(BaseIndexer):
         add = ips.add
         for line in subprocess.Popen(cmd, stdout=subprocess.PIPE).stdout:
             sa = line.decode('utf-8').strip()
-            if line == "No matching flows":
+            if sa == "No matching flows":
                 break
             if sa:
-                add(serialize_ip(sa))
+                sa_serialized = serialize_ip(sa)
+                add(sa_serialized)
         return ips
     def fn_to_db(self, fn):
         """turn /data/nfsen/profiles/live/podium/nfcapd.200903011030 into 20090301.db"""
