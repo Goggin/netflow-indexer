@@ -80,17 +80,19 @@ class BaseIndexer:
         #begin = time.time()
         last_fn = fns[-1]
         database = self.open_db(last_fn)
-        #if the last file is already indexed, nothing to do
-        if self.has_document("fn:%s" % last_fn):
+
+        unindexed_fns = [fn for fn in fns if not self.has_document("fn:%s" % fn)]
+        # If all of the files are already indexed, nothing to do
+        if len(unindexed_fns) == 0:
             return
-        if len(fns) == 1:
+        if len(unindexed_fns) == 1:
             st = time.time()
-            ips = self.get_bytes(fns[0])
-            print("read %s in %0.1f seconds. %d ips." % (fns[0], time.time() - st, len(ips)))
+            ips = self.get_bytes(unindexed_fns[0])
+            print("read %s in %0.1f seconds. %d ips." % (unindexed_fns[0], time.time() - st, len(ips)))
             sys.stdout.flush()
         else:
             ips = set()
-            for fn in fns:
+            for fn in unindexed_fns:
                 st = time.time()
                 new_ips = self.get_bytes(fn)
                 if len(new_ips) > 0:
@@ -103,7 +105,7 @@ class BaseIndexer:
         if len(ips) > 0:
             list(map(doc.add_term, ips))
 
-        for fn in fns:
+        for fn in unindexed_fns:
             doc.add_term("fn:%s" % fn)
 
         #docid is the hour part of the filename
